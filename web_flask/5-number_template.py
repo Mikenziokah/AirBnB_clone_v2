@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Script that starts a Flask web application"""
 from flask import Flask
+from flask import render_template
 app = Flask(__name__)
 
 
@@ -25,14 +26,21 @@ def hello_text(text):
 @app.route('/python', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def hello_python(text):
-    """ Fourth Route that display C and text """
+    """ Fourth Route that display Python and text """
     return "Python {}".format(text.replace("_", " "))
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def hello_number(n):
-    """ Fifth Route that display C and text """
+    """ Fifth Route that display Number """
     return "%d is a number" % n
+
+
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def hello_html(n):
+    """ Route that display HTML """
+    return render_template('5-number.html', n=n)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
