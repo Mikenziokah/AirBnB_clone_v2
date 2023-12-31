@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ script that starts a Flask web application"""
-from flask import Flask
+from flask import Flask, escape, request
 app = Flask(__name__)
 
 
@@ -10,5 +10,4 @@ def hello():
     return "Hello HBNB!"
 
 if __name__ == '__main__':
-"""main func"""
     app.run(host='0.0.0.0', port=5000)
