@@ -8,26 +8,19 @@ import models
 
 
 class State(BaseModel, Base):
-    """ State class """
+    """This is the class for State
+    Attributes:
+        name: input name
+    """
+    __tablename__ = 'states'
+    name = Column(String(128), nullable=False)
 
-    __tablename__ = "states"
-
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        name = Column(String(128), nullable=False)
-        cities = relationship("City", backref="state",
-                              cascade="all, delete, delete-orphan")
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        cities = relationship('City', backref='state',
+                              cascade='all, delete-orphan')
     else:
-        name = ""
-
         @property
         def cities(self):
-            '''
-                Return list of city instances if City.state_id==current
-                State.id
-                FileStorage relationship between State and City
-            '''
-            list_cities = []
-            for city in models.storage.all("City").values():
-                if city.state_id == self.id:
-                    list_cities.append(city)
-            return list_cities
+            """Getter attribute in case of file storage"""
+            return [city for city in models.storage.all(City).values()
+                    if city.state_id == self.id]
